@@ -1,0 +1,450 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Age & Birthday Countdown</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background: linear-gradient(135deg, #ff758c, #a855f7);
+
+            padding: 20px;
+        }
+
+
+        .container {
+            width: 450px;
+
+            background: rgba(255, 255, 255, 0.95);
+
+            padding: 35px;
+
+            border-radius: 25px;
+
+            text-align: center;
+
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+
+
+        .emoji {
+            font-size: 60px;
+
+            margin-bottom: 10px;
+        }
+
+
+        h1 {
+            color: #3b245c;
+
+            font-size: 30px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .subtitle {
+            color: #777;
+
+            margin-bottom: 25px;
+
+            font-size: 15px;
+        }
+
+
+        input {
+            width: 100%;
+
+            padding: 14px;
+
+            border: 2px solid #eee;
+
+            border-radius: 12px;
+
+            font-size: 16px;
+
+            outline: none;
+
+            margin-bottom: 15px;
+        }
+
+
+        input:focus {
+            border-color: #a855f7;
+        }
+
+
+        button {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background: linear-gradient(
+                135deg,
+                #ff4f81,
+                #a855f7
+            );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+
+        button:hover {
+            transform: translateY(-2px);
+
+            box-shadow: 0 8px 20px rgba(168, 85, 247, 0.35);
+        }
+
+
+        #result {
+            margin-top: 28px;
+        }
+
+
+        .title {
+            color: #555;
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+
+        .age {
+            font-size: 32px;
+
+            font-weight: bold;
+
+            background: linear-gradient(
+                135deg,
+                #ff4f81,
+                #a855f7
+            );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+            margin-bottom: 25px;
+        }
+
+
+        .countdown {
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 10px;
+        }
+
+
+        .time-box {
+            flex: 1;
+
+            background: #faf5ff;
+
+            border: 1px solid #eee;
+
+            padding: 15px 5px;
+
+            border-radius: 15px;
+
+            transition: 0.3s;
+        }
+
+
+        .time-box:hover {
+            transform: translateY(-4px);
+
+            box-shadow: 0 8px 18px rgba(168, 85, 247, 0.15);
+        }
+
+
+        .time-box h2 {
+            color: #a855f7;
+
+            font-size: 25px;
+        }
+
+
+        .time-box p {
+            color: #888;
+
+            font-size: 12px;
+
+            margin-top: 5px;
+        }
+
+
+        @media (max-width: 500px) {
+
+            .container {
+                width: 100%;
+
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .countdown {
+                gap: 5px;
+            }
+
+            .time-box {
+                padding: 12px 3px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="container">
+
+        <div class="emoji">
+            🎂
+        </div>
+
+
+        <h1>
+            Age Calculator
+        </h1>
+
+
+        <p class="subtitle">
+            Find your age & next birthday 🎉
+        </p>
+
+
+        <input
+            type="date"
+            id="birthday"
+        >
+
+
+        <button onclick="calculateAge()">
+            Calculate My Age ✨
+        </button>
+
+
+        <div id="result"></div>
+
+    </div>
+
+
+
+    <script>
+
+        let timer;
+
+
+        function calculateAge() {
+
+            let birthday =
+                document.getElementById("birthday").value;
+
+
+            if (birthday == "") {
+
+                document.getElementById("result").innerHTML =
+                    "<p>Please select your date of birth 🎂</p>";
+
+                return;
+            }
+
+
+            let birthDate =
+                new Date(birthday);
+
+
+            let today =
+                new Date();
+
+
+            /* AGE */
+
+            let age =
+                today.getFullYear()
+                - birthDate.getFullYear();
+
+
+            let month =
+                today.getMonth()
+                - birthDate.getMonth();
+
+
+            if (
+                month < 0 ||
+                (
+                    month == 0 &&
+                    today.getDate() < birthDate.getDate()
+                )
+            ) {
+
+                age--;
+
+            }
+
+
+            clearInterval(timer);
+
+
+            /* COUNTDOWN */
+
+            timer = setInterval(function() {
+
+                let today = new Date();
+
+
+                let nextBirthday =
+                    new Date(
+                        today.getFullYear(),
+                        birthDate.getMonth(),
+                        birthDate.getDate()
+                    );
+
+
+                if (nextBirthday < today) {
+
+                    nextBirthday =
+                        new Date(
+                            today.getFullYear() + 1,
+                            birthDate.getMonth(),
+                            birthDate.getDate()
+                        );
+
+                }
+
+
+                let difference =
+                    nextBirthday - today;
+
+
+                let days =
+                    Math.floor(
+                        difference /
+                        (1000 * 60 * 60 * 24)
+                    );
+
+
+                let hours =
+                    Math.floor(
+                        (difference /
+                        (1000 * 60 * 60)) % 24
+                    );
+
+
+                let minutes =
+                    Math.floor(
+                        (difference /
+                        (1000 * 60)) % 60
+                    );
+
+
+                let seconds =
+                    Math.floor(
+                        (difference / 1000) % 60
+                    );
+
+
+                document.getElementById("result").innerHTML = `
+
+                    <div class="title">
+                        🎈 Your Age
+                    </div>
+
+
+                    <div class="age">
+                        ${age} Years
+                    </div>
+
+
+                    <div class="title">
+                        🎉 Next Birthday In
+                    </div>
+
+
+                    <div class="countdown">
+
+                        <div class="time-box">
+                            <h2>${days}</h2>
+                            <p>Days</p>
+                        </div>
+
+
+                        <div class="time-box">
+                            <h2>${hours}</h2>
+                            <p>Hours</p>
+                        </div>
+
+
+                        <div class="time-box">
+                            <h2>${minutes}</h2>
+                            <p>Minutes</p>
+                        </div>
+
+
+                        <div class="time-box">
+                            <h2>${seconds}</h2>
+                            <p>Seconds</p>
+                        </div>
+
+                    </div>
+
+                `;
+
+
+            }, 1000);
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
